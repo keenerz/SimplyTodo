@@ -19,7 +19,7 @@ def create_token():
     if user is None:
         return jsonify({"msg": "Missing email or password"}), 401
     access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id, "email": user.email })
+    return jsonify({ "token": access_token, "user_id": user.id, "email": user.email})
 
 @api.route('/user', methods=['POST'])
 def create_user():
