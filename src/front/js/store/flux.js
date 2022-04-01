@@ -1,33 +1,99 @@
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
-      users: [],
+      user: {},
       todos: [],
     },
     actions: {
-      // // Use getActions to call a function within a fuction
-      // exampleFunction: () => {
-      // 	getActions().changeColor(0, "green");
-      // },
-      // getMessage: () => {
-      // 	// fetching data from the backend
-      // 	fetch(process.env.BACKEND_URL + "/api/hello")
-      // 		.then(resp => resp.json())
-      // 		.then(data => setStore({ message: data.message }))
-      // 		.catch(error => console.log("Error loading message from backend", error));
-      // },
-      // changeColor: (index, color) => {
-      // 	//get the store
-      // 	const store = getStore();
-      // 	//we have to loop the entire demo array to look for the respective index
-      // 	//and change its color
-      // 	const demo = store.demo.map((elm, i) => {
-      // 		if (i === index) elm.background = color;
-      // 		return elm;
-      // 	});
-      // 	//reset the global store
-      // 	setStore({ demo: demo });
-      // }
+      //Login and Token items
+      getCurrentSession: () => {
+        const session = JSON.parse(localStorage.getItem("session"));
+        return session;
+      },
+      login: async (email, password) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        };
+
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/token`,
+            options
+          );
+          if (response.status !== 200) {
+            alert("Incorrect Email or Password");
+            return false;
+          }
+
+          const data = await response.json();
+          localStorage.setItem("session", JSON.stringify(data));
+          setStore({ session: data });
+          actions.loadTodos();
+          return true;
+        } catch (error) {
+          console.error("Error in login zone");
+        }
+      },
+      logout: () => {
+        const store = getStore();
+        const actions = getActions();
+        localStorage.removeItem("session");
+        setStore({ session: null });
+      },
+      //Todo Functions
+      loadTodos: async () => {
+        const store = getStore();
+        const actions = getActions();
+        const session = actions.getCurrentSession();
+        let options = {
+          headers: {
+            Authorization: "Bearer " + session.token,
+          },
+        };
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/todos`,
+          options
+        );
+        if (response.status === 200) {
+          const payload = await response.json();
+          setStore({ projects: payload });
+        }
+      },
+      saveTodoList: async (newTodos) => {
+        const actions = getActions();
+        const session = actions.getCurrentSession();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + session.token,
+          },
+          body: JSON.stringify({
+            todos: newTodos.todos,
+            stage: newTodos.stage,
+            due_date: newTodos.due_date,
+          }),
+        };
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/todos`,
+          options
+        );
+        if (response.status === 200) {
+          const payload = await response.json();
+          console.log("project created successfully!");
+          actions.loadTodos();
+          return payload;
+        }
+      },
     },
   };
 };
