@@ -3,7 +3,7 @@ import { Context } from "../store/appContext";
 import { useHistory, Link } from "react-router-dom";
 import "../../styles/register.css";
 
-export const AccountCreation = () => {
+export const Register = () => {
   const { store, actions } = useContext(Context);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
