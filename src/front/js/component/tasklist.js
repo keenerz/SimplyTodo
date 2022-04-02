@@ -7,6 +7,7 @@ export const TaskList = () => {
   const todos = JSON.parse(sessionStorage.getItem("todos"));
   let [task, setTask] = useState("");
   let [duedate, setDuedate] = useState("");
+  let [stage, setStage] = useState("");
   let [list, setList] = useState([]);
 
   // Input and mechanics
@@ -67,7 +68,7 @@ export const TaskList = () => {
               value={task}
             />
           </div>
-          <div className="float-end my-3">
+          <div className="float-end my-3 me-4">
             <span className="input-group-addon fw-light float-start me-2">
               Due Date:
             </span>
@@ -90,8 +91,23 @@ export const TaskList = () => {
                 key={i}
               >
                 {singleTask.task}{" "}
+                <div className="theSelectors">
+                  <select
+                    className="feedback-input-selector"
+                    aria-label="project_type"
+                    value={singleTask.stage}
+                    onChange={(e) => {
+                      setProject({ ...singleTask, stage: e.target.value });
+                    }}
+                  >
+                    <option value="">Stage</option>
+                    <option value="notdone">Not Done</option>
+                    <option value="inprogress">In Progress</option>
+                    <option value="done">Done</option>
+                  </select>
+                </div>
                 <div className="theButtons">
-                  <div
+                  {/* <div
                     className="listDone"
                     onClick={() => {
                       let newList = [...list];
@@ -101,12 +117,12 @@ export const TaskList = () => {
                     }}
                   >
                     <i className="fas fa-check"></i>
-                  </div>
+                  </div> */}
                   <div
                     className="listDelete"
                     onClick={() => {
                       setList(store.todos.filter((deleteTask, j) => j !== i));
-                      actions.saveTodoList(
+                      actions.deleteTodo(
                         store.todos.filter((deleteTask, j) => j !== i)
                       );
                     }}
