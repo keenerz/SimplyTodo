@@ -4,72 +4,81 @@ import "../../styles/tasklist.css";
 
 export const TaskList = () => {
   const { store, actions } = useContext(Context);
+  const todos = JSON.parse(sessionStorage.getItem("todos"));
   let [task, setTask] = useState("");
+  let [duedate, setDuedate] = useState("");
   let [list, setList] = useState([]);
 
   // Input and mechanics
-  const handleInput = (e) => {
-    if (e.keyCode === 13 && e.target.value != "") {
-      if (e.target.value.trim() === "") {
-        alert("Error 404: words not found");
-        setTask("");
-      } else {
-        setTask(e.target.value);
-        setList([...list, { label: task, done: false }]);
-        setTask("");
-        saveTodoList([...list, { label: task, done: false }]);
-      }
-    }
-  };
-
-  //Fetch Integration
-  //   const getTodos = async () => {
-  //     const options = {
-  //       method: "GET",
-  //     };
-  //     const response = await fetch(
-  //       "https://assets.breatheco.de/apis/fake/todos/user/keenerz",
-  //       options
-  //     );
-  //     setList(await response.json());
-  //   };
+  // const handleInput = (e) => {
+  //   if (e.keyCode === 13 && task != "") {
+  //     if (task.trim() === "") {
+  //       alert("Error 404: words not found");
+  //       setTask("");
+  //     } else {
+  //       setTask(e.target.value);
+  //       setList([...list, { label: task, stage: "notdone" }]);
+  //       setTask("");
+  //       actions.saveTodoList({ label: task, stage: "notdone" });
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
-    getTodos();
+    actions.loadTodos;
+    setList(todos);
   }, []);
 
-  //   const saveTodoList = async (newTodos) => {
-  //     console.log(newTodos);
-  //     const options = {
-  //       method: "PUT",
-  //       body: JSON.stringify(newTodos),
-  //       headers: { "content-type": "application/json" },
-  //     };
-  //     const response = await fetch(
-  //       "https://assets.breatheco.de/apis/fake/todos/user/keenerz",
-  //       options
-  //     );
-  //     console.log(JSON.stringify(newTodos.done));
-  //   };
-
   return (
-    <div className="d-inline justify-content-center w-100" id="whole">
-      <div className="fw-light">
-        <input
-          className="form-control fw-light ps-5"
-          id="inputZone"
-          type="text"
-          placeholder={
-            list.length === 0
-              ? "No tasks, add a task"
-              : "What needs to be done?"
-          }
-          onChange={(event) => setTask(event.target.value)}
-          onKeyDown={(e) => {
-            handleInput(e);
+    <div className="justify-content-center w-100" id="whole">
+      <div className="fw-light input-group">
+        <form
+          className="inputs"
+          onSubmit={() => {
+            if (task != "") {
+              if (task.trim() === "") {
+                alert("Error 404: words not found");
+                setTask("");
+              } else {
+                setList([
+                  ...list,
+                  { label: task, duedate: duedate, stage: "notdone" },
+                ]);
+                actions.addTodo();
+              }
+            }
           }}
-          value={task}
-        />
+        >
+          <div className="float-start ms-4 my-3">
+            <span className="input-group-addon fw-light me-2 float-start">
+              Task:
+            </span>
+            <input
+              className="form-control fw-light task-input"
+              type="text"
+              placeholder={
+                list.length === 0
+                  ? "No tasks, add a task"
+                  : "What needs to be done?"
+              }
+              onChange={(event) => setTask(event.target.value)}
+              // onKeyDown={(e) => {
+              //   handleInput(e);
+              // }}
+              value={task}
+            />
+          </div>
+          <div className="float-end my-3">
+            <span className="input-group-addon fw-light float-start me-2">
+              Due Date:
+            </span>
+            <input
+              className="form-control fw-light"
+              type="date"
+              onChange={(event) => setDuedate(event.target.value)}
+            ></input>
+          </div>
+        </form>
       </div>
       <div id="list">
         <ul>
@@ -81,7 +90,7 @@ export const TaskList = () => {
                 }`}
                 key={i}
               >
-                {singleTask.label}{" "}
+                {singleTask.task}{" "}
                 <div className="theButtons">
                   <div
                     className="listDone"
@@ -89,7 +98,7 @@ export const TaskList = () => {
                       let newList = [...list];
                       newList[i].done = !newList[i].done;
                       setList(newList);
-                      saveTodoList(newList);
+                      actions.saveTodoList(newList);
                     }}
                   >
                     <i className="fas fa-check"></i>
@@ -98,7 +107,9 @@ export const TaskList = () => {
                     className="listDelete"
                     onClick={() => {
                       setList(list.filter((deleteTask, j) => j !== i));
-                      saveTodoList(list.filter((deleteTask, j) => j !== i));
+                      actions.saveTodoList(
+                        list.filter((deleteTask, j) => j !== i)
+                      );
                     }}
                   >
                     <i className="fas fa-trash"></i>
@@ -110,7 +121,7 @@ export const TaskList = () => {
         </ul>
         <div className="ps-3 py-2 fw-light text-start" id="footer">
           <span id="footerText">
-            {list.length} {list.length === 1 ? "item" : "items"} left
+            {list?.length} {list?.length === 1 ? "item" : "items"} left
           </span>
         </div>
       </div>

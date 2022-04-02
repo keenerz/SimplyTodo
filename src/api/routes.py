@@ -127,10 +127,8 @@ def update_todo():
 @jwt_required()
 def delete_todo():
     current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
-    user_id = request.json.get('user')
     todo_id_get = request.json.get('id')
-    target_todo = Todos.query.filter_by(creator=user_id, id=todo_id_get).first()
+    target_todo = Todos.query.filter_by(creator=current_user_id, id=todo_id_get).first()
     if target_todo is None: 
         return jsonify({"msg": "Invalid todo"}), 400
     db.session.delete(target_todo)

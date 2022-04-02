@@ -65,14 +65,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         );
         if (response.status === 200) {
           const payload = await response.json();
-          setStore({ projects: payload });
+          sessionStorage.setItem("todos", JSON.stringify(payload));
+          setStore({ todos: payload });
         }
       },
-      saveTodoList: async (newTodos) => {
+      addTodo: async (newTodos) => {
         const actions = getActions();
         const session = actions.getCurrentSession();
         const options = {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + session.token,
@@ -93,6 +94,28 @@ const getState = ({ getStore, getActions, setStore }) => {
           actions.loadTodos();
           return payload;
         }
+      },
+      deleteTodo: async (todo) => {
+        const actions = getActions();
+        const session = actions.getCurrentSession();
+        const options = {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + session.token,
+          },
+          body: JSON.stringify({
+            id: todo.id,
+          }),
+        };
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/todos`,
+          options
+        );
+        if (response.status !== 200) {
+          alert("Error in first");
+        }
+        actions.loadTodos();
       },
     },
   };

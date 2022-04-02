@@ -57,10 +57,10 @@ export const Login = () => {
             Log In
           </button>
         </div>
-        <a className="forgot" href="#">
+        <a className="forgot" href="mailto:keenankandev@gmail.com">
           Forgot your email or password?
         </a>
-        <Link to="/create" className="forgot mt-2">
+        <Link to="/register" className="forgot mt-2">
           Don't have an account? Sign up here.
         </Link>
       </form>

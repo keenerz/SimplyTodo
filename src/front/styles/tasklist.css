@@ -27,6 +27,8 @@ h1 {
 
 .form-control {
   border: none;
+  width: inherit;
+  padding: 0;
 }
 
 input:focus,
@@ -100,8 +102,10 @@ li {
   font-size: 12px;
 }
 
-#inputZone {
+.input-group {
   height: 50px;
+  width: 100px;
+  display: inline;
 }
 
 .done {
@@ -111,4 +115,13 @@ li {
   float: right;
   visibility: hidden;
   display: flex;
+}
+
+.inputs {
+  height: 60px;
+}
+
+.task-input {
+  width: 230px;
+  overflow: scroll;
 }

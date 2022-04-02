@@ -92,11 +92,9 @@ export const Register = () => {
             ) : null}
 
             <div className="mb-3">
-              <Link to="/accountcreation" className="already">
-                <button className="btn btn-primary d-block w-100" type="submit">
-                  Sign Up
-                </button>
-              </Link>
+              <button className="btn btn-primary d-block w-100" type="submit">
+                Sign Up
+              </button>
             </div>
             <Link to="/" className="already">
               You already have an account? Login.
