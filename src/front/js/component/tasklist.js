@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext.js";
 import "../../styles/tasklist.css";
 
-const TaskList = () => {
+export const TaskList = () => {
   const { store, actions } = useContext(Context);
   let [task, setTask] = useState("");
   let [list, setList] = useState([]);
@@ -23,34 +23,34 @@ const TaskList = () => {
   };
 
   //Fetch Integration
-  const getTodos = async () => {
-    const options = {
-      method: "GET",
-    };
-    const response = await fetch(
-      "https://assets.breatheco.de/apis/fake/todos/user/keenerz",
-      options
-    );
-    setList(await response.json());
-  };
+  //   const getTodos = async () => {
+  //     const options = {
+  //       method: "GET",
+  //     };
+  //     const response = await fetch(
+  //       "https://assets.breatheco.de/apis/fake/todos/user/keenerz",
+  //       options
+  //     );
+  //     setList(await response.json());
+  //   };
 
   useEffect(() => {
     getTodos();
   }, []);
 
-  const saveTodoList = async (newTodos) => {
-    console.log(newTodos);
-    const options = {
-      method: "PUT",
-      body: JSON.stringify(newTodos),
-      headers: { "content-type": "application/json" },
-    };
-    const response = await fetch(
-      "https://assets.breatheco.de/apis/fake/todos/user/keenerz",
-      options
-    );
-    console.log(JSON.stringify(newTodos.done));
-  };
+  //   const saveTodoList = async (newTodos) => {
+  //     console.log(newTodos);
+  //     const options = {
+  //       method: "PUT",
+  //       body: JSON.stringify(newTodos),
+  //       headers: { "content-type": "application/json" },
+  //     };
+  //     const response = await fetch(
+  //       "https://assets.breatheco.de/apis/fake/todos/user/keenerz",
+  //       options
+  //     );
+  //     console.log(JSON.stringify(newTodos.done));
+  //   };
 
   return (
     <div className="d-inline justify-content-center w-100" id="whole">
@@ -117,4 +117,3 @@ const TaskList = () => {
     </div>
   );
 };
-export default TaskList;
