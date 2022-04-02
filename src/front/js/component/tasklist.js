@@ -26,7 +26,6 @@ export const TaskList = () => {
 
   useEffect(() => {
     actions.loadTodos;
-    setList(todos);
   }, []);
 
   return (
@@ -40,11 +39,11 @@ export const TaskList = () => {
                 alert("Error 404: words not found");
                 setTask("");
               } else {
-                setList([
-                  ...list,
-                  { label: task, duedate: duedate, stage: "notdone" },
-                ]);
-                actions.addTodo();
+                actions.addTodo({
+                  task: task,
+                  duedate: duedate,
+                  stage: "notdone",
+                });
               }
             }
           }}
@@ -57,7 +56,7 @@ export const TaskList = () => {
               className="form-control fw-light task-input"
               type="text"
               placeholder={
-                list.length === 0
+                list?.length === 0
                   ? "No tasks, add a task"
                   : "What needs to be done?"
               }
@@ -82,7 +81,7 @@ export const TaskList = () => {
       </div>
       <div id="list">
         <ul>
-          {list.map((singleTask, i) => {
+          {store.todos.map((singleTask, i) => {
             return (
               <li
                 className={`d-flex justify-content-between ps-5 py-2 text-muted fw-light fs-5 ${
@@ -106,9 +105,9 @@ export const TaskList = () => {
                   <div
                     className="listDelete"
                     onClick={() => {
-                      setList(list.filter((deleteTask, j) => j !== i));
+                      setList(store.todos.filter((deleteTask, j) => j !== i));
                       actions.saveTodoList(
-                        list.filter((deleteTask, j) => j !== i)
+                        store.todos.filter((deleteTask, j) => j !== i)
                       );
                     }}
                   >

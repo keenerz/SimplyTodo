@@ -47,6 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
         const actions = getActions();
         localStorage.removeItem("session");
+        sessionStorage.removeItem("todos");
         setStore({ session: null });
       },
       //Todo Functions
