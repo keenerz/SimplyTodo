@@ -118,6 +118,29 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
         actions.loadTodos();
       },
+      changeTodoStage: async (todo) => {
+        const actions = getActions();
+        const session = actions.getCurrentSession();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + session.token,
+          },
+          body: JSON.stringify({
+            id: todo.id,
+            stage: todo.stage,
+          }),
+        };
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/todos`,
+          options
+        );
+        if (response.status !== 200) {
+          alert("Error in first");
+        }
+        actions.loadTodos();
+      },
     },
   };
 };

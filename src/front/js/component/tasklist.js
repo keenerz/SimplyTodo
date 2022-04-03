@@ -97,7 +97,10 @@ export const TaskList = () => {
                     aria-label="project_type"
                     value={singleTask.stage}
                     onChange={(e) => {
-                      setProject({ ...singleTask, stage: e.target.value });
+                      actions.changeTodoStage({
+                        ...singleTask,
+                        stage: e.target.value,
+                      });
                     }}
                   >
                     <option value="">Stage</option>
