@@ -120,7 +120,7 @@ export const TaskList = () => {
                   </div> */}
                   <div
                     className="listDelete"
-                    onClick={() => {
+                    onClick={(e) => {
                       setList(store.todos.filter((deleteTask, j) => j !== i));
                       actions.deleteTodo(
                         store.todos.filter((deleteTask, j) => j !== i)
