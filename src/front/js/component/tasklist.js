@@ -6,27 +6,10 @@ export const TaskList = () => {
   const { store, actions } = useContext(Context);
   const todos = JSON.parse(sessionStorage.getItem("todos"));
   let [task, setTask] = useState("");
-  let [duedate, setDuedate] = useState("");
-  let [stage, setStage] = useState("");
-  let [list, setList] = useState([]);
-
-  // Input and mechanics
-  // const handleInput = (e) => {
-  //   if (e.keyCode === 13 && task != "") {
-  //     if (task.trim() === "") {
-  //       alert("Error 404: words not found");
-  //       setTask("");
-  //     } else {
-  //       setTask(e.target.value);
-  //       setList([...list, { label: task, stage: "notdone" }]);
-  //       setTask("");
-  //       actions.saveTodoList({ label: task, stage: "notdone" });
-  //     }
-  //   }
-  // };
+  let [duedate, setDuedate] = useState(null);
 
   useEffect(() => {
-    actions.loadTodos;
+    actions.loadTodos();
   }, []);
 
   return (
@@ -34,18 +17,17 @@ export const TaskList = () => {
       <div className="fw-light input-group">
         <form
           className="inputs"
-          onSubmit={() => {
-            if (task != "") {
-              if (task.trim() === "") {
-                alert("Error 404: words not found");
-                setTask("");
-              } else {
-                actions.addTodo({
+          onSubmit={(e) => {
+            if (task.trim() === "") {
+              alert("Error 404: words not found");
+              setTask("");
+            } else {
+              actions
+                .addTodo({
                   task: task,
                   duedate: duedate,
-                  stage: "notdone",
-                });
-              }
+                })
+                .then(e.preventDefault());
             }
           }}
         >
@@ -57,14 +39,14 @@ export const TaskList = () => {
               className="form-control fw-light task-input"
               type="text"
               placeholder={
-                list?.length === 0
+                store.todos?.length === 0
                   ? "No tasks, add a task"
                   : "What needs to be done?"
               }
-              onChange={(event) => setTask(event.target.value)}
-              // onKeyDown={(e) => {
-              //   handleInput(e);
-              // }}
+              onChange={(event) => {
+                setTask(event.target.value);
+                console.log(event.target.value);
+              }}
               value={task}
             />
           </div>
@@ -110,24 +92,10 @@ export const TaskList = () => {
                   </select>
                 </div>
                 <div className="theButtons">
-                  {/* <div
-                    className="listDone"
-                    onClick={() => {
-                      let newList = [...list];
-                      newList[i].done = !newList[i].done;
-                      setList(newList);
-                      actions.saveTodoList(newList);
-                    }}
-                  >
-                    <i className="fas fa-check"></i>
-                  </div> */}
                   <div
                     className="listDelete"
                     onClick={(e) => {
-                      setList(store.todos.filter((deleteTask, j) => j !== i));
-                      actions.deleteTodo(
-                        store.todos.filter((deleteTask, j) => j !== i)
-                      );
+                      actions.deleteTodo({ id: singleTask.id });
                     }}
                   >
                     <i className="fas fa-trash"></i>
@@ -139,7 +107,8 @@ export const TaskList = () => {
         </ul>
         <div className="ps-3 py-2 fw-light text-start" id="footer">
           <span id="footerText">
-            {list?.length} {list?.length === 1 ? "item" : "items"} left
+            {store.todos?.length} {store.todos?.length === 1 ? "item" : "items"}{" "}
+            left
           </span>
         </div>
       </div>

@@ -10,6 +10,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         const session = JSON.parse(localStorage.getItem("session"));
         return session;
       },
+      getCurrentTodos: () => {
+        const todos = JSON.parse(sessionStorage.getItem("todos"));
+        setStore({ todos: [todos] });
+        return todos;
+      },
       login: async (email, password) => {
         const store = getStore();
         const actions = getActions();
@@ -50,6 +55,47 @@ const getState = ({ getStore, getActions, setStore }) => {
         sessionStorage.removeItem("todos");
         setStore({ session: null });
       },
+      createUser: async (email, password) => {
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        };
+
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/user`,
+          options
+        );
+        if (response.status !== 200) {
+          alert("Incorrect Email or Password");
+          e.preventDefault();
+        }
+      },
+      editUser: async (email, password) => {
+        const store = getStore();
+        const actions = getActions();
+        const session = actions.getCurrentSession();
+        const options = {
+          method: "PUT",
+          headers: {
+            Authorization: "Bearer " + session.token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        };
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/user`,
+          options
+        );
+      },
       //Todo Functions
       loadTodos: async () => {
         const store = getStore();
@@ -80,9 +126,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: "Bearer " + session.token,
           },
           body: JSON.stringify({
-            todos: newTodos.todos,
+            task: newTodos.task,
             stage: newTodos.stage,
-            due_date: newTodos.due_date,
+            duedate: "notdone",
           }),
         };
         const response = await fetch(
