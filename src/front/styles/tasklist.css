@@ -115,6 +115,15 @@ li {
 .done {
   text-decoration: line-through;
 }
+
+.inprogress {
+  color: green;
+}
+
+.notdone {
+  color: red;
+}
+
 .theButtons {
   float: right;
   visibility: visible;
@@ -134,5 +143,6 @@ li {
 }
 
 .functionalSection {
-  width: 100px;
+  width: 150px;
+  float: right;
 }

@@ -68,11 +68,18 @@ export const TaskList = () => {
             return (
               <li
                 className={`d-flex ps-5 py-2 text-muted fw-light fs-5 ${
-                  singleTask.done ? "done" : ""
+                  singleTask.stage == "done" ? "done" : ""
                 }`}
                 key={i}
               >
-                <div className="float-start">{singleTask.task}</div>{" "}
+                <div
+                  className={`float-start  ${
+                    singleTask.stage == "done" ? "done" : ""
+                  } ${singleTask.stage == "inprogress" ? "inprogress" : ""}
+                  ${singleTask.stage == "notdone" ? "notdone" : ""}`}
+                >
+                  {singleTask.task}
+                </div>{" "}
                 <div className="functionalSection">
                   <div className="theSelectors">
                     <select
