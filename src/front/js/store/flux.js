@@ -127,8 +127,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify({
             task: newTodos.task,
-            stage: newTodos.stage,
-            duedate: "notdone",
+            stage: "notdone",
+            duedate: newTodos.duedate,
           }),
         };
         const response = await fetch(
