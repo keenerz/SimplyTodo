@@ -10,9 +10,15 @@ export const Navbar = () => {
   return (
     <nav className="navbar navbar-light bg-light">
       <div className="container">
-        <Link to="/">
-          <span className="navbar-brand mb-0 h1">SimplyTodo</span>
-        </Link>
+        {!session ? (
+          <Link to="/">
+            <span className="navbar-brand mb-0 h1">SimplyTodo</span>
+          </Link>
+        ) : (
+          <Link to="/todos">
+            <span className="navbar-brand mb-0 h1">SimplyTodo</span>
+          </Link>
+        )}
         <div className="ml-auto">
           {!session ? (
             <Link to="/">
