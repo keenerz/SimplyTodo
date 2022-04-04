@@ -148,3 +148,12 @@ li {
 .thetask {
   float: left;
 }
+
+.dateinput {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.changeduedate {
+  justify-content: center;
+}

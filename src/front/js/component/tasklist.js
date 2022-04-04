@@ -6,7 +6,7 @@ export const TaskList = () => {
   const { store, actions } = useContext(Context);
   const todos = JSON.parse(sessionStorage.getItem("todos"));
   let [task, setTask] = useState("");
-  let [duedate, setDuedate] = useState(null);
+  let [duedate, setDuedate] = useState("");
 
   useEffect(() => {
     actions.loadTodos();
@@ -27,7 +27,9 @@ export const TaskList = () => {
                   task: task,
                   duedate: duedate,
                 })
-                .then(e.preventDefault());
+                .then(e.preventDefault())
+                .then(setTask(""))
+                .then(setDuedate(""));
             }
           }}
         >
@@ -82,6 +84,79 @@ export const TaskList = () => {
                 </div>
                 <span></span>
                 <div className="functionalSection">
+                  {singleTask.duedate ? (
+                    <div className="duedate dropdown me-1">
+                      <a
+                        className="btn btn-light dropdown-toggle"
+                        href="#"
+                        role="button"
+                        id="dropdownMenuLink"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        {singleTask.duedate?.split(" ")[0] +
+                          " " +
+                          singleTask.duedate?.split(" ")[2] +
+                          " " +
+                          singleTask.duedate?.split(" ")[1] +
+                          " " +
+                          singleTask.duedate?.split(" ")[3]}
+                      </a>
+                      <ul
+                        className="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton1"
+                      >
+                        <li>
+                          <div className="changeduedate">
+                            <input
+                              className="form-control dateinput"
+                              type="date"
+                              value={singleTask.duedate}
+                              onChange={(e) => {
+                                actions.changeTodoDuedate({
+                                  ...singleTask,
+                                  duedate: e.target.value,
+                                });
+                              }}
+                            ></input>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  ) : (
+                    <div className="duedate dropdown me-1">
+                      <a
+                        className="btn btn-light dropdown-toggle"
+                        href="#"
+                        role="button"
+                        id="dropdownMenuLink"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        {<i className="fas fa-calendar"></i>}
+                      </a>
+                      <ul
+                        className="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton1"
+                      >
+                        <li>
+                          <div className="changeduedate">
+                            <input
+                              className="form-control dateinput"
+                              type="date"
+                              value={singleTask.duedate}
+                              onChange={(e) => {
+                                actions.changeTodoDuedate({
+                                  ...singleTask,
+                                  duedate: e.target.value,
+                                });
+                              }}
+                            ></input>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                   <div className="theSelectors">
                     <select
                       className="form-select"

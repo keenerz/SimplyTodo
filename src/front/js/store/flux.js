@@ -131,13 +131,19 @@ const getState = ({ getStore, getActions, setStore }) => {
             duedate: newTodos.duedate,
           }),
         };
+        if (newTodos.duedate == "") {
+          options.body = JSON.stringify({
+            task: newTodos.task,
+            stage: "notdone",
+          });
+        }
         const response = await fetch(
           process.env.BACKEND_URL + `/api/todos`,
           options
         );
         if (response.status === 200) {
           const payload = await response.json();
-          console.log("project created successfully!");
+          console.log("Todos created successfully!");
           actions.loadTodos();
           return payload;
         }
@@ -176,6 +182,29 @@ const getState = ({ getStore, getActions, setStore }) => {
           body: JSON.stringify({
             id: todo.id,
             stage: todo.stage,
+          }),
+        };
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/todos`,
+          options
+        );
+        if (response.status !== 200) {
+          alert("Error in first");
+        }
+        actions.loadTodos();
+      },
+      changeTodoDuedate: async (todo) => {
+        const actions = getActions();
+        const session = actions.getCurrentSession();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + session.token,
+          },
+          body: JSON.stringify({
+            id: todo.id,
+            duedate: todo.duedate,
           }),
         };
         const response = await fetch(
