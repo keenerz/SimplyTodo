@@ -31,7 +31,7 @@ export const Register = () => {
                 e.preventDefault();
               } else {
                 actions
-                  .createUser(email, password, username)
+                  .createUser(email, password)
                   .then((session) => history.push("/login"));
                 e.preventDefault();
               }

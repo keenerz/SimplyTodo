@@ -67,38 +67,40 @@ export const TaskList = () => {
           {store.todos.map((singleTask, i) => {
             return (
               <li
-                className={`d-flex justify-content-between ps-5 py-2 text-muted fw-light fs-5 ${
+                className={`d-flex ps-5 py-2 text-muted fw-light fs-5 ${
                   singleTask.done ? "done" : ""
                 }`}
                 key={i}
               >
-                {singleTask.task}{" "}
-                <div className="theSelectors">
-                  <select
-                    className="feedback-input-selector"
-                    aria-label="project_type"
-                    value={singleTask.stage}
-                    onChange={(e) => {
-                      actions.changeTodoStage({
-                        ...singleTask,
-                        stage: e.target.value,
-                      });
-                    }}
-                  >
-                    <option value="">Stage</option>
-                    <option value="notdone">Not Done</option>
-                    <option value="inprogress">In Progress</option>
-                    <option value="done">Done</option>
-                  </select>
-                </div>
-                <div className="theButtons">
-                  <div
-                    className="listDelete"
-                    onClick={(e) => {
-                      actions.deleteTodo({ id: singleTask.id });
-                    }}
-                  >
-                    <i className="fas fa-trash"></i>
+                <div className="float-start">{singleTask.task}</div>{" "}
+                <div className="functionalSection">
+                  <div className="theSelectors">
+                    <select
+                      className="feedback-input-selector"
+                      aria-label="project_type"
+                      value={singleTask.stage}
+                      onChange={(e) => {
+                        actions.changeTodoStage({
+                          ...singleTask,
+                          stage: e.target.value,
+                        });
+                      }}
+                    >
+                      <option value="">Stage</option>
+                      <option value="notdone">Not Done</option>
+                      <option value="inprogress">In Progress</option>
+                      <option value="done">Done</option>
+                    </select>
+                  </div>
+                  <div className="theButtons">
+                    <div
+                      className="listDelete"
+                      onClick={(e) => {
+                        actions.deleteTodo({ id: singleTask.id });
+                      }}
+                    >
+                      <i className="fas fa-trash"></i>
+                    </div>
                   </div>
                 </div>
               </li>

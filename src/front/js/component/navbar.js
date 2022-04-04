@@ -31,9 +31,16 @@ export const Navbar = () => {
               Log me out!
             </button>
           )}
-          <Link to="/">
-            <button className="btn btn-primary">Account Settings</button>
-          </Link>
+          {session ? (
+            <Link to="/settings">
+              <button className="btn btn-primary">
+                <i className="fas fa-user-lock me-1"></i>
+                Account Settings
+              </button>
+            </Link>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </nav>

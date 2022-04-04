@@ -20,6 +20,9 @@ ul {
   margin-left: 0px;
   margin-bottom: 0px;
 }
+li {
+  width: 300px;
+}
 
 h1 {
   font-size: 100px;
@@ -46,9 +49,10 @@ button:focus-visible {
   outline: none;
 }
 .listDelete {
-  visibility: hidden;
+  visibility: visible;
   color: rgba(240, 123, 123, 0.767);
   margin-left: 10px;
+  float: right;
 }
 li:hover > .theButtons > .listDelete {
   visibility: visible;
@@ -113,8 +117,11 @@ li {
 }
 .theButtons {
   float: right;
-  visibility: hidden;
-  display: flex;
+  visibility: visible;
+}
+
+.theSelectors {
+  float: right;
 }
 
 .inputs {
@@ -124,4 +131,8 @@ li {
 .task-input {
   width: 230px;
   overflow: scroll;
+}
+
+.functionalSection {
+  width: 100px;
 }
