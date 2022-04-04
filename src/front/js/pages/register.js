@@ -32,7 +32,7 @@ export const Register = () => {
               } else {
                 actions
                   .createUser(email, password)
-                  .then((session) => history.push("/login"));
+                  .then((session) => history.push("/"));
                 e.preventDefault();
               }
             }}

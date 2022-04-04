@@ -15,7 +15,7 @@ export const Navbar = () => {
         </Link>
         <div className="ml-auto">
           {!session ? (
-            <Link to="/login">
+            <Link to="/">
               <button className="btn btn-primary me-2">
                 Login / Create User
               </button>
@@ -25,7 +25,7 @@ export const Navbar = () => {
               className="btn btn-danger log me-2"
               onClick={() => {
                 actions.logout();
-                history.push("/login");
+                history.push("/");
               }}
             >
               Log me out!

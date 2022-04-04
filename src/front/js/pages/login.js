@@ -15,7 +15,7 @@ export const Login = () => {
         method="post"
         onSubmit={(e) => {
           actions.login(email, password).then((session) => {
-            if (session) history.push("/");
+            if (session) history.push("/todos");
           });
           e.preventDefault();
         }}
