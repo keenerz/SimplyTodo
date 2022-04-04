@@ -67,23 +67,24 @@ export const TaskList = () => {
           {store.todos.map((singleTask, i) => {
             return (
               <li
-                className={`d-flex ps-5 py-2 text-muted fw-light fs-5 ${
+                className={`ps-5 py-2 text-muted fw-light fs-5 ${
                   singleTask.stage == "done" ? "done" : ""
                 }`}
                 key={i}
               >
                 <div
-                  className={`float-start  ${
+                  className={`float-start thetask  ${
                     singleTask.stage == "done" ? "done" : ""
                   } ${singleTask.stage == "inprogress" ? "inprogress" : ""}
                   ${singleTask.stage == "notdone" ? "notdone" : ""}`}
                 >
                   {singleTask.task}
-                </div>{" "}
+                </div>
+                <span></span>
                 <div className="functionalSection">
                   <div className="theSelectors">
                     <select
-                      className="feedback-input-selector"
+                      className="form-select"
                       aria-label="project_type"
                       value={singleTask.stage}
                       onChange={(e) => {

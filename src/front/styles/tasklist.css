@@ -21,7 +21,7 @@ ul {
   margin-bottom: 0px;
 }
 li {
-  width: 300px;
+  width: 100%;
 }
 
 h1 {
@@ -98,6 +98,7 @@ select {
 li {
   border-top: 1px solid rgba(223, 223, 223, 0.432);
   padding-right: 20px;
+  display: inline-flex;
 }
 
 #footer {
@@ -129,10 +130,6 @@ li {
   visibility: visible;
 }
 
-.theSelectors {
-  float: right;
-}
-
 .inputs {
   height: 60px;
 }
@@ -143,6 +140,11 @@ li {
 }
 
 .functionalSection {
-  width: 150px;
+  display: flex;
   float: right;
+  margin-left: auto;
+}
+
+.thetask {
+  float: left;
 }
